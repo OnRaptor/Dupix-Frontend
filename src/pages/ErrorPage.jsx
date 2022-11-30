@@ -1,13 +1,13 @@
 import React from 'react';
-import Logo from "../components/ui/Logo";
 import {ContentWrapper} from "../components/ui/ContentWrapper";
 import {useRouteError} from "react-router-dom";
+import Text from "../components/ui/Text";
 
 const ErrorPage = () => {
     const error = useRouteError();
     return (
         <ContentWrapper>
-            <Logo>{error.statusText || error.message}</Logo>
+            <Text font-size="24px" color='red'>{error.statusText || error.message}</Text>
         </ContentWrapper>
     );
 };

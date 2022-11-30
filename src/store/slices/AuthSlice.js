@@ -1,7 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {useGenTokenQuery} from "../api/DupixApi";
 
 const initialState = {
-    token: {token:null, timestamp:null},
+    token: localStorage.getItem("token") || null,
 }
 
 
@@ -10,14 +11,6 @@ export const AuthSlice = createSlice({
     initialState,
     reducers:{
         setToken: (state, action) => {
-            const timestamp: Date = action.payload.timestamp
-            const currentDate = new Date()
-
-            if (timestamp.getHours() > currentDate.getHours())
-                return
-            if (timestamp.getMinutes() - currentDate.getMinutes() > 15)
-                return
-
             state.token = action.payload
         }
     }

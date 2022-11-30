@@ -1,20 +1,77 @@
-import {createApi, fetchBaseQuery} from  "@reduxjs/toolkit/dist/query/react";
+import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
+import {setToken} from "../slices/AuthSlice";
+import {DupixApiUtils} from "./DupixApiUtils";
 
-export const GenTokenResult = {
+export const GenTokenErrorResult = {
     haveAlready: 0,
     invalidCred: 1,
     serverError: 2,
+}
+
+export const GetDataErrorResult = {
+    invalidArgs: 0,
+    invalidToken: 1,
+    serverError: 2,
+}
+
+export const GetDataType = {
+    Recs: 'getRecs',
+    Legends: 'getPhotos',
+    Fresh: 'getPhotos-fresh'
+}
+
+//useGetGenericDataQuery(GetDataType.Recs)
+const queryFnWithToken = async (args,
+                                {signal, dispatch, getState},
+                                extraOptions,
+                                fetchBQ) => {
+    const token = getState().authSlice.token
+    if (token === null)
+        return GetDataErrorResult.invalidToken
+    const [type, page] = args
+    const response = await fetchBQ(
+        {
+            url: `${type}.php`,
+            params: {token: token, p: page},
+            responseHandler: "text"
+        }
+    )
+    console.log("Response:")
+
+    if (response.data.startsWith('{')) {
+        const json = JSON.parse(response.data)
+        console.log(json)
+        return { data: json }
+    }
+    else
+        console.log(response.data)
+
+    if (response.data === "invalid arguments")
+        return GetDataErrorResult.invalidArgs
+    else if (response.data === "invalid token"){
+        console.log('regen token...')
+        const {login, password} = DupixApiUtils.getCachedData()
+        const response = await dispatch(dupixApi.endpoints.genToken.initiate([login, password]))
+        if (response.data !== GenTokenErrorResult.haveAlready) {
+            dispatch(setToken(response.data))
+            DupixApiUtils.cacheAuth(null, null, response.data)
+            return await fetchBQ(
+                {
+                    url: `${type}.php`,
+                    params: {token: response.data, p: page},
+                    responseHandler: "json"
+                }
+            )
+        }
+    }
+    else if (response.data.includes('critical error'))
+        return GetDataErrorResult.serverError
 }
 
 export const dupixApi = createApi({
     reducerPath: 'dupixArt',
     baseQuery: fetchBaseQuery({
             baseUrl: 'https://dupix.art/api/',
-            /*fetchFn: async input => {
-                const result = await fetch(new Request(input, {mode: "no-cors"}))
-                console.log(result)
-                return result
-            }*/
             }),
     endpoints: (builder) => ({
         genToken:  builder.query({
@@ -28,21 +85,21 @@ export const dupixApi = createApi({
             },
             transformResponse: (response) =>{
                 console.log(response)
+                console.log(typeof response)
                 if (response === "you must be logged in to generate tokens!")
-                    return GenTokenResult.invalidCred
+                    return GenTokenErrorResult.invalidCred
                 else if (response === "you already have one!")
-                    return GenTokenResult.haveAlready
+                    return GenTokenErrorResult.haveAlready
                 else if (response === "error\" / \"unknown error" || response === "unable to generate token, session error")
-                    return GenTokenResult.serverError
+                    return GenTokenErrorResult.serverError
                 else
                     return response
-            },
-            transformErrorResponse: (response) => {
-                console.log(response.error)
-                return response.error
             }
+        }),
+        getGenericData: builder.query({
+            queryFn: queryFnWithToken
         })
     })
 })
 
-export const { useGenTokenQuery } = dupixApi
+export const { useGenTokenQuery, useGetGenericDataQuery } = dupixApi
