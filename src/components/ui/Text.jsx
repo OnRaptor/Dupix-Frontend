@@ -6,6 +6,10 @@ const TextWrapper = styled.div`
   color: ${props => props.color || props.theme.colors.accent};
   margin: ${props => props.margin || "2px"};
   padding: ${props => props.padding || "2px"};
+  max-width: inherit;
+  max-lines: 4;
+  text-wrap: avoid;
+  word-wrap: break-word;
   
   ${props => props.primary && css`
     color: ${props.theme.colors.primary};

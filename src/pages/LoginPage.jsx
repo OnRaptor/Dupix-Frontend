@@ -4,11 +4,12 @@ import {ContentWrapper} from "../components/ui/ContentWrapper";
 import Button from "../components/ui/Button";
 import Text from "../components/ui/Text";
 import {useNavigate} from "react-router-dom";
-import {GenTokenErrorResult, useGenTokenQuery} from "../store/api/DupixApi";
+import {useGenTokenQuery} from "../store/api/DupixApi";
 import {useDispatch} from "react-redux";
-import {setToken} from "../store/slices/AuthSlice";
+import {setAuthData} from "../store/slices/AuthSlice";
 import CircularProgress from "../components/ui/CircularProgress";
 import {DupixApiUtils} from "../store/api/DupixApiUtils";
+import {GenTokenErrorResult} from "../store/api/DupixApiGeneric";
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -25,7 +26,7 @@ const LoginPage = () => {
         if (data !== undefined) {
             if (typeof data === typeof "") {
                 DupixApiUtils.cacheAuth(login, password, data)
-                dispatch(setToken(data))
+                dispatch(setAuthData({ data:data, login:login }))
                 setPreventLogin(true)
                 navigate("/recs")
             }

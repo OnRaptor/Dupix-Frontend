@@ -2,6 +2,8 @@ import React from 'react';
 import styled from "styled-components";
 import Text from "./ui/Text";
 import {FlexContainer} from "./ui/containers/FlexContainer";
+import {useSelector} from "react-redux";
+import {StyledNavLink} from "./ui/NavLink";
 
 const AppbarWrapper = styled.div`
   display: flex;
@@ -15,18 +17,28 @@ const AppbarWrapper = styled.div`
 `
 
 const Appbar = () => {
+    const name = useSelector(state => state.authSlice.username)
+
     return (
         <AppbarWrapper>
             <FlexContainer align="center">
                 <Text animated margin="10px" fontSize="30px">Dupix</Text>
-                <Text href='/recs' link margin="10px" fontSize="20px">Рекомендации</Text>
-                <Text href='/legends' link margin="10px" fontSize="20px">Легенды</Text>
-                <Text href='/fresh' link margin="10px" fontSize="20px">Свежее</Text>
-                <Text href='/fresh' link margin="10px" fontSize="20px">Сообщения</Text>
+                <Text margin="10px" fontSize="20px">
+                    <StyledNavLink style={{textDecoration:'none'}} to='/recs'>Рекомендации</StyledNavLink>
+                </Text>
+                <Text margin="10px" fontSize="20px">
+                    <StyledNavLink style={{textDecoration:'none'}} to='/legends'>Легенды</StyledNavLink>
+                </Text>
+                <Text margin="10px" fontSize="20px">
+                    <StyledNavLink style={{textDecoration:'none'}} to='/fresh'>Свежее мясо</StyledNavLink>
+                </Text>
+                <Text StyledNavLink margin="10px" fontSize="20px">
+                    <StyledNavLink style={{textDecoration:'none'}} to='/'>Сообщения?</StyledNavLink>
+                </Text>
             </FlexContainer>
             <FlexContainer align="center">
-                <Text href="/upload" link padding="0 10px 0 0">Загрузить</Text>
-                <Text href="/profile" link padding="0 10px 0 0">Пользователь</Text>
+                <Text href="/upload" StyledNavLink padding="0 10px 0 0">Загрузить</Text>
+                <Text href="/profile" StyledNavLink padding="0 10px 0 0">{name}</Text>
             </FlexContainer>
         </AppbarWrapper>
     );

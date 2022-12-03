@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import {createGlobalStyle, ThemeProvider} from "styled-components";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
-import Recs from "./pages/Recs";
+import DataViewer from "./pages/DataViewer";
 import LoginPage from "./pages/LoginPage";
 import DupixPage from "./pages/DupixPage";
 import LandingPage from "./pages/LandingPage";
@@ -11,6 +11,7 @@ import {AppWrapper} from "./components/ui/AppWrapper";
 import {ContentWrapper} from "./components/ui/ContentWrapper";
 import {Provider} from "react-redux";
 import {store} from "./store";
+import {GetDataType} from "./store/api/DupixApiGeneric";
 
 const Global = createGlobalStyle`
     *{
@@ -50,7 +51,15 @@ const router = createBrowserRouter([
         children: [
             {
                 path: 'recs',
-                element: <Recs/>
+                element: <DataViewer dataType={GetDataType.Recs}/>
+            },
+            {
+                path: 'legends',
+                element: <DataViewer dataType={GetDataType.Legends}/>
+            }
+            ,{
+                path: 'fresh',
+                element: <DataViewer dataType={GetDataType.Fresh}/>
             }
         ]
     },

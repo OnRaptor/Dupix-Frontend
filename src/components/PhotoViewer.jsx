@@ -5,30 +5,50 @@ import {BaseElement} from "./ui/Base";
 import Text from "./ui/Text";
 import Button from "./ui/Button";
 import ImageAmbientLight from "./ui/Image";
+import {dupixApi} from "../store/api/DupixApi";
+import {useDispatch} from "react-redux";
 
 const RecItemWrapper = styled.div`
   ${props => BaseElement(props)}
-  margin-top:50px
+  margin-top:50px;
+  max-width: 500px;
+  min-width: 300px;
+  min-height: 300px;
 `
 
 const PhotoViewer = ({item}) => {
+    const dispatch = useDispatch()
+
+    const likePhoto = async () => {
+        const response = await dispatch(dupixApi.endpoints.makeAction.initiate(['likePhoto', {
+            id: item.id,
+            angle: 90,
+            mode: 'toggle'
+        }]))
+        console.log(response)
+    }
+    const addView = () =>{
+
+    }
     return (
         <RecItemWrapper>
             <Text fontSize="23px">{item.title}</Text>
             <Text primary fontSize="15px">{item.date}</Text>
-            <ImageAmbientLight src={"https://dupix.art/" + item.raw_images.big}/>
+            <a href='/'>
+                <ImageAmbientLight src={"https://dupix.art/" + item.raw_images.big}/>
+            </a>
+
             <Text fontSize="17px">
                 Автор:
                 <Text link href={`https://dupix.art/profile.php?id=${item.author}`}>{item.author}</Text>
             </Text>
             <FlexContainer justify="space-between" align="center">
                 <FlexContainer margin="4px">
-                    <Button>Лукис</Button>
+                    <Button onClick={() => likePhoto()}>Лукис</Button>
                     <Button>Оставить коментарий</Button>
                 </FlexContainer>
                 <Text primary fontSize="15px">{item.views + ' просмотров'} </Text>
             </FlexContainer>
-
         </RecItemWrapper>
     );
 };
