@@ -37,8 +37,12 @@ const Appbar = () => {
                 </Text>
             </FlexContainer>
             <FlexContainer align="center">
-                <Text href="/upload" StyledNavLink padding="0 10px 0 0">Загрузить</Text>
-                <Text href="/profile" StyledNavLink padding="0 10px 0 0">{name}</Text>
+                <Text StyledNavLink padding="0 10px 0 0">
+                    <StyledNavLink style={{textDecoration:'none'}} to='/upload'>Загрузить</StyledNavLink>
+                </Text>
+                <Text StyledNavLink padding="0 10px 0 0">
+                    <StyledNavLink style={{textDecoration:'none'}} to='/'>{name}</StyledNavLink>
+                </Text>
             </FlexContainer>
         </AppbarWrapper>
     );

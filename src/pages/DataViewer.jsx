@@ -31,6 +31,10 @@ const DataViewer = ({dataType}) => {
     useEffect(()=>{
         if (data) {
             console.log(data)
+            if (data.photos) {
+                dispatch(addPhotos(data.photos))
+                return
+            }
             if (data === GetDataErrorResult.serverError)
                 setError("Ошибка сервера, попробуйте позже")
             else if (data === GetDataErrorResult.invalidArgs)
@@ -38,18 +42,15 @@ const DataViewer = ({dataType}) => {
             else if (data === GenTokenErrorResult.haveAlready)
                 setError("Вы авторизованы в другом месте")
             else if (data === GetDataErrorResult.endOfData) {
-                if (observer.current.takeRecords().length !== 0)
+                if (photos.length !== 0)
                     observer.current.unobserve(lastElement.current)
-                if (photos.length === 0)
-                    setError("Нет данных")
+
+                setError("Нет данных")
             }
             else {
-                dispatch(addPhotos(data.photos))
-                console.log(observer.current.takeRecords())
-                observer.current.observe(lastElement.current)
-                console.log(observer.current.takeRecords())
+                setError("Unhandled error")
+                //document.location.reload()
             }
-
         }
     }, [data])
 
@@ -63,14 +64,15 @@ const DataViewer = ({dataType}) => {
             }
         }
         observer.current = new IntersectionObserver(callback)
+        observer.current.observe(lastElement.current)
         document.title = dataType
     })
 
     return (
         <ContentWrapper>
             {photos.length !== 0 && <RecsViewer recs={photos}/> }
-            {photos.length !== 0 && <div ref={lastElement} style={{width:"100%", height: '20px'}}/>}
-            {isLoading && <CircularProgress/>}
+            <div ref={lastElement} style={{width:"100%", height: '20px'}}/>
+            {!error && <CircularProgress/>}
             {error && <Text color="red">{error}</Text>}
         </ContentWrapper>
     );

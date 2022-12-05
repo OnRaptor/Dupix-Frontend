@@ -62,4 +62,4 @@ export const dupixApi = createApi({
     })
 })
 
-export const { useGenTokenQuery, useGetGenericDataQuery, useGetProfileDataQuery } = dupixApi
+export const { useGenTokenQuery, useGetGenericDataQuery } = dupixApi

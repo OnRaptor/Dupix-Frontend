@@ -12,6 +12,7 @@ import {ContentWrapper} from "./components/ui/ContentWrapper";
 import {Provider} from "react-redux";
 import {store} from "./store";
 import {GetDataType} from "./store/api/DupixApiGeneric";
+import UploadPage from "./pages/UploadPage";
 
 const Global = createGlobalStyle`
     *{
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
             ,{
                 path: 'fresh',
                 element: <DataViewer dataType={GetDataType.Fresh}/>
+            },
+            {
+                path: 'upload',
+                element: <UploadPage/>
             }
         ]
     },

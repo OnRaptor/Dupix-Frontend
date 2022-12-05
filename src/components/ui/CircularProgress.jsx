@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
 const StyledCircularProgress = styled.div`
   width: 35px;
@@ -9,10 +9,12 @@ const StyledCircularProgress = styled.div`
   border-radius: 50%;
   border-color: ${props => props.theme.colors.primary};
   background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   animation:spin 1s linear infinite;
+
+  ${props => props.small && css`
+    width: 17px;
+    height: 17px;
+  `}
   
   @keyframes spin {
     100% {
