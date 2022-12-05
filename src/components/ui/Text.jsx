@@ -10,6 +10,7 @@ const TextWrapper = styled.div`
   max-lines: 4;
   text-wrap: avoid;
   word-wrap: break-word;
+  width: ${props => props.width || "auto"};
   
   ${props => props.primary && css`
     color: ${props.theme.colors.primary};

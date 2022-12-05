@@ -11,7 +11,8 @@ const StyledButton = styled.button`
 
   ${props => props.filled && css`
     background-color: ${props.theme.colors.accent};
-    color: ${props => props.theme.colors.secondary};
+    color: ${props => props.theme.colors.primary};
+    border-color: ${props => props.theme.colors.accent};
   `}
   
   &:active{
@@ -22,8 +23,9 @@ const StyledButton = styled.button`
   
   &:hover{
     background-color: ${props => props.theme.colors.primary};
-    transition: background-color 1s;
+    transition: background-color 500ms;
     filter: drop-shadow(0 0 2em ${props => props.theme.colors.primary});
+    color: ${props => props.theme.colors.accent};
   }
   
 `

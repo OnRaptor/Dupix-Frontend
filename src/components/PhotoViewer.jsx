@@ -62,7 +62,7 @@ const PhotoViewer = ({item}) => {
                         {likeLoading && <CircularProgress small/>}
                         {!likeLoading && "Лукис"}
                     </Button>
-                    <Button>Оставить коментарий</Button>
+                    <Button>Коментарий</Button>
                 </FlexContainer>
                 <Text primary fontSize="15px">{item.views + ' просмотров'} </Text>
             </FlexContainer>

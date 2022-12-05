@@ -2,26 +2,29 @@ import React from 'react';
 import Text from "../components/ui/Text";
 import {ContentWrapper} from "../components/ui/ContentWrapper";
 import TextBox from "../components/ui/TextBox";
-import {FlexContainer} from "../components/ui/containers/FlexContainer";
 import Button from "../components/ui/Button";
+import RadioButton from "../components/ui/RadioButton";
+import {Separator} from "../components/ui/Separator";
+import Slider from "../components/ui/Slider";
 
 const UploadPage = () => {
     return (
-        <ContentWrapper>
+        <ContentWrapper justify="start">
             <Text fontSize='33px'>Загрузка фотографий</Text>
-            <TextBox placeholder='Title'/>
-            <TextBox placeholder='tags'/>
-            <TextBox placeholder='Aspect ratio' list="ice-cream-flavors"/>
-            <datalist id="ice-cream-flavors">
-                <option value="4 на 3"/>
-                <option value="16 на 9"/>
-                <option value="9 на 16"/>
-            </datalist>
-            <TextBox type='range' placeholder='angle'/>
-            <FlexContainer align='center'>
-                <Button>Выбрать файл</Button>
-                <Text>Aboba.jpf</Text>
-            </FlexContainer>
+            <Separator/>
+            <Text>Название</Text>
+            <TextBox/>
+            <Text>Фото</Text>
+            <Button>Выбрать</Button>
+            <Text>Теги</Text>
+            <TextBox/>
+            <Text>Угол поворота(необязательно)</Text>
+            <Slider min='0' max='360'/>
+            <Text>Формат изображения</Text>
+            <RadioButton props={{name:'ratio'}}>16:9</RadioButton>
+            <RadioButton props={{name:'ratio'}}>9:16</RadioButton>
+            <RadioButton props={{name:'ratio'}}>4:3</RadioButton>
+            <Button filled width="80%">Загрузить</Button>
         </ContentWrapper>
     );
 };

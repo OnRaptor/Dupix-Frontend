@@ -13,9 +13,7 @@ const DupixPage = () => {
         <PageWrapper>
             <Appbar/>
             <AppWrapper>
-                <ContentWrapper>
-                    <Outlet/>
-                </ContentWrapper>
+                <Outlet/>
             </AppWrapper>
         </PageWrapper>
     );
