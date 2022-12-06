@@ -44,6 +44,10 @@ export const DupixApiUtils = {
             output = response
 
         return output
+    },
+    logout: async (dispatch) => {
+        await dispatch(dupixApi.endpoints.discardToken.initiate())
+        DupixApiUtils.cacheAuth('','','')
     }
  }
 

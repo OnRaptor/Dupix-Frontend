@@ -31,7 +31,8 @@ const theme = {
         accent : '#BE008A',
         primary : '#646cff',
         secondary: '#FF9200',
-        hover: '#5d5d5d'
+        hover: '#5d5d5d',
+        sidebar: 'rgba(54,54,54,0.61)',
     },
     media:{
         phone: '(max-width: 425px)'

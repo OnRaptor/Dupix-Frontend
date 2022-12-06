@@ -2,30 +2,25 @@ import React from 'react';
 import styled from "styled-components";
 import Text from "./Text";
 
-const HiddenRadioButton = styled.input.attrs({
+const StyledRadioButton = styled.input.attrs({
     type:'radio'
 })`
-  height: 13px;
-  width: 13px;
-  cursor: pointer;
-  position: absolute;
-  opacity: 0;
-`
-
-const StyledCheckMark = styled.div`
-  width: 13px;
-  height: 13px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background-color: transparent;
-  pointer-events: none;
-  border: 1px solid ${props => props.theme.colors.accent};  
-  padding: 2px;
+  border: 1px solid ${props => props.theme.colors.accent};
+  cursor: pointer;
+  outline: none;
 
-  ${HiddenRadioButton}:checked + && {
+  &:checked{
     background-color: ${props => props.theme.colors.accent};
   }
-
-  ${HiddenRadioButton}:hover + && {
+  
+  &:hover {
     border-color: ${props => props.theme.colors.primary};
   }
 `
@@ -33,9 +28,8 @@ const StyledCheckMark = styled.div`
 
 const RadioButton = ({children, props}) => {
     return (
-        <div style={{display:'flex', flexDirection:'row', alignItems:'center', minWidth:'60px'}}>
-            <HiddenRadioButton {...props}/>
-            <StyledCheckMark {...props}/>
+        <div style={{display:'flex', flexDirection:'row', alignItems:'center', minWidth:'80px'}}>
+            <StyledRadioButton {...props}/>
             <Text>{children}</Text>
         </div>
     );

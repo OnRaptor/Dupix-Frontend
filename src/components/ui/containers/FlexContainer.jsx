@@ -7,4 +7,6 @@ export const FlexContainer = styled.div`
   align-items: ${props => props.align};
   margin: ${props => props.margin};
   padding: ${props => props.padding};
+  width: ${props => props.width};
+  height: ${props => props.height || 'auto'};
 `

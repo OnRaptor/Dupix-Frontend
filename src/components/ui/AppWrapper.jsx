@@ -9,5 +9,5 @@ export const AppWrapper = styled.div`
     justify-content: center;
     position: absolute;
     top:0;
-    z-index: -2;
-  `
+    z-index: -2; 
+`

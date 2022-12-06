@@ -82,3 +82,40 @@ export const queryFnForAction = async (args,
     else //Error handle
         return DupixApiUtils.transformServerOutput(response.data, dispatch, fetchFn)
 }
+
+export const queryFnForUpload = async (args,
+                                {signal, dispatch, getState},
+                                extraOptions,
+                                fetchBQ) =>{
+    const fetchFn = () => {
+        const token = getState().authSlice.token
+        if (token === null)
+            return GetDataErrorResult.invalidToken
+        let [params, photo] = args
+        const body = new FormData()
+        params.forEach((param)=>
+            body.append(param[0], param[1])
+        )
+        body.append(photo.name, photo.blob, photo.filename)
+        return fetchBQ(
+            {
+                url: `upload.php`,
+                body:body,
+                params:{token: token},
+                responseHandler: "text",
+                method:'POST'
+            }
+        )
+    }
+
+    const response = await fetchFn()
+    console.log(response)
+    if (response.data.includes('https://'))
+        return { data :
+                { success: true, result: response.data }
+    }
+    else
+        return { data:
+                { success: false, error: response.data }
+    }
+}

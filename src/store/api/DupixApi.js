@@ -3,7 +3,7 @@ import {
     GenTokenErrorResult,
     GetDataErrorResult,
     GetDataType,
-    queryFnForAction,
+    queryFnForAction, queryFnForUpload,
     queryFnWithToken
 } from "./DupixApiGeneric";
 
@@ -41,6 +41,9 @@ export const dupixApi = createApi({
         makeAction: builder.query({
             queryFn: queryFnForAction
         }),
+        uploadPhoto: builder.mutation({
+            queryFn: queryFnForUpload
+        }),
         getProfileData: builder.query({
             queryFn: async (args,
                 {signal, dispatch, getState},
@@ -57,6 +60,21 @@ export const dupixApi = createApi({
                     return { data: GetDataErrorResult.invalidToken }
                 else
                     return { data: JSON.parse(response) }
+            }
+        }),
+        discardToken: builder.query({
+            queryFn: async (args,
+                {signal, dispatch, getState},
+                extraOptions,
+                fetchBQ) =>{
+                const token = getState().authSlice.token
+                const response = await fetchBQ({
+                    url: `discardToken.php`,
+                    params: {token: token},
+                    responseHandler: "text"
+                })
+
+                return { data: response.data }
             }
         })
     })

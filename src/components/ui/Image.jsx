@@ -6,7 +6,6 @@ const Layout = styled.div`
   position: relative;
   max-width: 500px;
   max-height: 500px;
-  margin: 0 auto;
   display: flex;
   justify-content: center;
 `
@@ -30,11 +29,13 @@ export const ImageWrapper = styled.img`
   object-fit: contain;
 `
 
-const ImageAmbientLight = ({src}) => {
+const ImageAmbientLight = ({src, props}) => {
+    if (!src)
+        return <></>
     return (
-        <Layout>
-            <ImageWrapper src={src} alt="image"/>
-            <AmbientLight src={src}/>
+        <Layout {...props}>
+            <ImageWrapper {...props} src={src} alt="image"/>
+            <AmbientLight {...props} src={src}/>
         </Layout>
     );
 };

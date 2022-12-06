@@ -7,7 +7,7 @@ export const BaseElement = (props) => {
       border-radius: 15px;
       border-color: ${props.theme.colors.primary};
       padding: 5px 15px 5px 15px;
-      margin: 3px;
+      margin: ${props.margin || '3px'};
       font-size: 20px;
       width: ${props.width || 'auto'};
 `
