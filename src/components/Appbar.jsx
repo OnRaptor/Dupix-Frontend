@@ -21,8 +21,8 @@ const AppbarWrapper = styled.div`
 const Appbar = () => {
     const name = useSelector(state => state.authSlice.username)
     const navigate = useNavigate()
-    const logoutFn = () =>{
-        DupixApiUtils.logout()
+    const logoutFn = async () => {
+        await DupixApiUtils.logout()
         navigate('/auth')
     }
     return (

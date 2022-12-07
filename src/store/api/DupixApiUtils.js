@@ -3,8 +3,8 @@ import {setAuthData} from "../slices/AuthSlice";
 import {GenTokenErrorResult, GetDataErrorResult} from "./DupixApiGeneric";
 
 export const DupixApiUtils = {
-    cacheAuth: (login?, password?, token?) =>{
-        localStorage.setItem("isAuth", '1')
+    cacheAuth: (login?, password?, token?, isAuth = '1') =>{
+        localStorage.setItem("isAuth", isAuth)
         login && localStorage.setItem("login", login)
         password && localStorage.setItem("password", password)
         token && localStorage.setItem("token", token)
@@ -47,7 +47,7 @@ export const DupixApiUtils = {
     },
     logout: async (dispatch) => {
         await dispatch(dupixApi.endpoints.discardToken.initiate())
-        DupixApiUtils.cacheAuth('','','')
+        DupixApiUtils.cacheAuth('','','', '0')
     }
  }
 
